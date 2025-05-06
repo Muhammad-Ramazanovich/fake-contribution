@@ -16,14 +16,17 @@ jobs:
         run: |
           for i in {1..5}
           do
-            echo "$(date) $i" >> fake.txt
+            echo "$(date) $i $RANDOM" >> fake.txt
             git add fake.txt
             git commit -m "Fake commit $i on $(date)"
           done
 
       - name: Push commits
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
         run: |
           git config user.name "Abdul Alameda"
           git config user.email "abduldev.muhammad3589@gmail.com"
-          git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git remote set-url origin "https://x-access-token:${TOKEN}@github.com/${REPO}"
           git push origin HEAD:main

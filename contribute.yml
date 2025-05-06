@@ -1,0 +1,29 @@
+name: Fake Contributions
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Generate fake commits
+        run: |
+          for i in {1..5}
+          do
+            echo "$(date) $i" >> fake.txt
+            git add fake.txt
+            git commit -m "Fake commit $i on $(date)"
+          done
+
+      - name: Push commits
+        run: |
+          git config user.name "Abdul Alameda"
+          git config user.email "abduldev.muhammad3589@gmail.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git push origin HEAD:main

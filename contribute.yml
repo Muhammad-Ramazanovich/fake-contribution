@@ -14,6 +14,8 @@ jobs:
 
       - name: Generate fake commits
         run: |
+          git config user.name "Abdul Alameda"
+          git config user.email "abduldev.muhammad3589@gmail.com"
           for i in {1..5}
           do
             echo "$(date) $i $RANDOM" >> fake.txt
